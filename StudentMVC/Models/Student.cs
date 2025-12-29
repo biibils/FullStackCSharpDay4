@@ -42,6 +42,7 @@ public class OnlyLettersAttribute : ValidationAttribute
     }
 }
 
+// model untuk PATCH Email
 public class UpdateStudentEmailDto
 {
     public required string Email { get; set; }
