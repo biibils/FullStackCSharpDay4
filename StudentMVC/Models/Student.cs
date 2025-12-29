@@ -41,3 +41,8 @@ public class OnlyLettersAttribute : ValidationAttribute
         return ValidationResult.Success;
     }
 }
+
+public class UpdateStudentEmailDto
+{
+    public required string Email { get; set; }
+}

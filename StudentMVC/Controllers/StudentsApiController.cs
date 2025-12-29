@@ -6,7 +6,7 @@ using StudentMVC.Models;
 namespace StudentMVC.Controllers.Api;
 
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/students")]
 [ApiController]
 public class StudentsApiController : ControllerBase
 {
@@ -92,6 +92,19 @@ public class StudentsApiController : ControllerBase
         return NoContent();
     }
 
+    // PATCH: api/v1/StudentsApi/{id}/email
+    [HttpPatch("{id}/email")]
+    public async Task<ActionResult> UpdateStudentEmail(int id, UpdateStudentEmailDto dto)
+    {
+        var student = await _context.Students.FindAsync(id);
+        if (student == null)
+            return NotFound();
+
+        student.Email = dto.Email;
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
     private bool StudentExists(int id)
     {
         return _context.Students.Any(e => e.Id == id);
@@ -99,7 +112,7 @@ public class StudentsApiController : ControllerBase
 }
 
 [ApiVersion("2.0")]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/students")]
 [ApiController]
 public class StudentsApiV2Controller : ControllerBase
 {
