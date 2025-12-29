@@ -1,0 +1,27 @@
+@model StudentMVC.Models.Course;
+
+@{
+    ViewData["Title"] = "Hapus Siswa";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Apakah Anda yakin ingin menghapus kursus ini?</h3>
+<div>
+    <h4>Siswa</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Nama</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="Submit" value="Hapus" class="btn btn-danger" />
+        <a asp-action="Index">Kembali ke Daftar</a>
+    </form>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

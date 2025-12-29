@@ -1,0 +1,28 @@
+@model StudentMVC.Models.CourseParticipant;
+
+@{
+    ViewData["Title"] = "Manage Participants";
+}
+
+<h2>Manage Participants for @Model.Course?.Name</h2>
+
+<form asp-action="UpdateParticipants" asp-route-id="@Model.Course?.Id" method="post">
+    <div>
+        @foreach (var student in Model.AllStudents)
+        {
+            var isChecked = Model.SelectedStudentIds.Contains(student.Id);
+            <div>
+                <label>
+                    <input type="checkbox" name="selectedStudentIds" value="@student.Id" @(isChecked ? "checked" : "") />
+                    @student.Name (@student.Email)
+                </label>
+            </div>
+        }
+    </div>
+    <button type="submit">Save</button>
+    <a asp-action="Details" asp-route-id="@Model.Course?.Id">Cancel</a>
+</form>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

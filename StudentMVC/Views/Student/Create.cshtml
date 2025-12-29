@@ -1,0 +1,42 @@
+@model StudentMVC.Models.Student;
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title mb-4">Tambah Siswa</h5>
+
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-semibold">Nama</label>
+                <input asp-for="Name" class="form-control" placeholder="Masukkan nama siswa" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Age" class="form-label fw-semibold">Usia</label>
+                <input asp-for="Age" class="form-control" placeholder="Masukkan usia" />
+                <span asp-validation-for="Age" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label fw-semibold">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="contoh@email.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary px-4">
+                    Simpan
+                </button>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

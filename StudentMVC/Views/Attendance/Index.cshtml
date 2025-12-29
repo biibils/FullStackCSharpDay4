@@ -1,0 +1,61 @@
+@model IEnumerable<StudentMVC.Models.Attendance>;
+
+@{
+	ViewData["Title"] = "Daftar Presensi Siswa";
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title mb-4">@ViewData["Title"]</h5>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Nama</th>
+                    <th style="width:140px">Tanggal</th>
+                    <th style="width:120px">Waktu</th>
+                    <th style="width:120px">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">
+                            @item.Student?.Name
+                        </td>
+
+                        <td>
+                            @item.Date.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            @item.Time.ToString(@"HH:mm")
+                        </td>
+
+                        <td>
+                            @switch (item.Status)
+                            {
+                                case AttendanceStatus.Hadir:
+                                    <span class="badge bg-success">Hadir</span>
+                                    break;
+                                case AttendanceStatus.Telat:
+                                    <span class="badge bg-warning text-dark">Telat</span>
+                                    break;
+                                case AttendanceStatus.Izin:
+                                    <span class="badge bg-info text-dark">Izin</span>
+                                    break;
+                                case AttendanceStatus.Sakit:
+                                    <span class="badge bg-info text-dark">Sakit</span>
+                                    break;
+                                case AttendanceStatus.Absen:
+                                    <span class="badge bg-danger">Absen</span>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

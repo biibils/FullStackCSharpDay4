@@ -1,0 +1,60 @@
+@model StudentMVC.Models.Attendance;
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title mb-1">Presensi Siswa</h5>
+        <p class="text-muted mb-4">
+            <strong>@Model.Student?.Name</strong>
+        </p>
+
+        <form asp-action="Create" method="post">
+            <input type="hidden" asp-for="StudentId" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Date" class="form-label fw-semibold">Tanggal</label>
+                    <input asp-for="Date" type="date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Time" class="form-label fw-semibold">Waktu</label>
+                    <input asp-for="Time" type="time" class="form-control" />
+                    <span asp-validation-for="Time" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label fw-semibold"></label>
+                <select asp-for="Status"
+                        asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
+                        class="form-select">
+                    <option value="">-- Pilih Status --</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Note" class="form-label fw-semibold">Catatan</label>
+                <textarea asp-for="Note"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Opsional, misalnya alasan izin / sakit"></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary px-4">
+                    Simpan Presensi
+                </button>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Kembali
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

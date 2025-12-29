@@ -1,0 +1,51 @@
+@model StudentMVC.Models.Student;
+
+@{
+    ViewData["Title"] = "Hapus DataSiswa";
+}
+
+<div class="card shadow-sm border-danger">
+    <div class="card-body">
+        <h5 class="card-title text-danger mb-3">
+            @ViewData["Title"]
+        </h5>
+
+        <p class="text-muted mb-4">
+            Apakah Anda yakin ingin menghapus siswa berikut?
+            Tindakan ini <strong>tidak dapat dibatalkan</strong>.
+        </p>
+
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Nama</div>
+            <div class="col-sm-9 fw-semibold">@Model.Name</div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-3 text-muted">Email</div>
+            <div class="col-sm-9">@Model.Email</div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-sm-3 text-muted">Usia</div>
+            <div class="col-sm-9">@Model.Age</div>
+        </div>
+
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">
+                    Hapus
+                </button>
+
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

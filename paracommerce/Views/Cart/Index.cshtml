@@ -1,0 +1,48 @@
+@model paracommerce.Models.Cart;
+
+<h2>Keranjang</h2>
+<a asp-controller="Market" asp-action="Index">Lanjut Belanja</a>
+
+@if (TempData["Error"] != null)
+{
+    <p style="color: red">@TempData["Error"]</p>
+}
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produk</th>
+                <th>Jumlah</th>
+                <th>Harga Satuan</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {;
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>Rp. @item.Product.Price.ToString("N0")</td>
+                    <td>Rp. @item.Subtotal.ToString("N0")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><strong>Total Keranjang:</strong></td>
+                <td><strong>Rp. @Model.TotalPrice.ToString("N0")</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <form asp-action="Checkout" method="post">
+        <button type="submit" class="btn btn-primary">Lanjut ke Pembayaran</button>
+    </form>
+}
+else
+{
+    <p>Keranjang Anda kosong.</p>
+}

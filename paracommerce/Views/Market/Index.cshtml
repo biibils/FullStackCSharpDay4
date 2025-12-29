@@ -1,0 +1,82 @@
+﻿@using paracommerce.Services
+@model IEnumerable<paracommerce.Models.Product>;
+@inject ICartService CartService;
+
+@{
+    ViewBag.Title = "Welcome to Paracommerce";
+    var cart = CartService.GetCart();
+}
+
+<h1>@ViewBag.Title</h1>
+
+<hr />
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        @ViewBag.Message
+    </div>
+}
+else
+{
+    <form method="get" asp-action="Index" class="mb-4">
+    	<div class="row g-2 align-items-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="input-group">
+                <span class="input-group-text">
+                    🔍
+                </span>
+                <input type="text"
+                       name="searchName"
+                       class="form-control"
+                       placeholder="Cari berdasarkan nama produk..."
+                       value="@Context.Request.Query["searchName"]" />
+            </div>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">
+                Cari
+            </button>
+        </div>
+    	</div>
+		</form>
+		
+		@foreach (var product in Model)
+    {
+        var cartItem = cart.Items.FirstOrDefault(i => i.Product.Id == product.Id);
+        <div class="product-item">
+            <h2>@product.Name</h2>
+            <p>@product.Description</p>
+            <p>Harga: Rp. @product.Price.ToString("N0")</p>
+            <p>Stok: @product.Stock</p>
+
+            @if (product.Stock == 0)
+            {
+                <button disabled style="color:red;">Stok Habis</button>
+            }
+            else if (cartItem == null)
+            {
+                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <button type="submit">Tambah ke Keranjang</button>
+                </form> 
+            }
+            else
+            {
+                <form asp-controller="Cart" asp-action="Decrease" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <button type="submit" class="btn btn-primary">-</button>
+                </form>
+
+                <strong>@cartItem.Quantity</strong>
+
+                <form asp-controller="Cart" asp-action="Increase" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <button type="submit" class="btn btn-primary">+</button>
+                </form>
+
+                <a asp-controller="Cart" asp-action="Index">Lihat Keranjang (@cart.Items.Sum(x => x.Quantity))</a>
+            }
+        </div>
+    }
+}

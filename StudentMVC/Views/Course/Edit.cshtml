@@ -1,0 +1,26 @@
+@model StudentMVC.Models.Course;
+
+@{
+    ViewData["Title"] = "Edit Kursus";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+</form>
+
+<div>
+    <a asp-action="Index">Kembali ke Daftar Kursus</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,67 @@
+@model IEnumerable<paracommerce.Models.Product>
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+@* Halaman Product untuk Admin, (Editable, Deletable, dan Add New Product) *@
+<h1>Admin Panel - @ViewBag.Title</h1>
+<a asp-action="Add" class="btn btn-primary mb-3">Tambah Produk</a>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        @ViewBag.Message
+    </div>
+}
+else
+{
+    <form method="get" asp-action="Index" class="mb-4">
+    	<div class="row g-2 align-items-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="input-group">
+                <span class="input-group-text">
+                    🔍
+                </span>
+                <input type="text"
+                       name="searchName"
+                       class="form-control"
+                       placeholder="Cari berdasarkan nama produk..."
+                       value="@Context.Request.Query["searchName"]" />
+            </div>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">
+                Cari
+            </button>
+        </div>
+    	</div>
+		</form>
+		
+		<table class="table">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Deskripsi</th>
+                <th>Harga</th>
+                <th>Stok</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>Rp. @item.Price.ToString("N0")</td>
+                <td>@item.Stock</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
